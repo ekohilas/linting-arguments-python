@@ -93,16 +93,28 @@ def check_call_against_definition(
     """
     TODO
     """
-    # TODO: Add return type
-    function_args = function_definition.args
+    function_arguments_object = function_definition.args
+    num_positional_parameters = len(function_arguments_object.posonlyargs)
+    num_non_positional_parameters = len(function_arguments_object.args)
+
     call_args = function_call.args
-    call_kwargs = function_call.keywords
+
+    # skip the arguments that are positional, and only take the remaining possible arguments that can be named
+    updateable_args = call_args[num_positional_parameters:num_positional_parameters + num_non_positional_parameters]
+
+    has_unnamed_arguments = bool(updateable_args)
+    return not has_unnamed_arguments
+
+
+
+    # call_kwargs = function_call.keywords
+    # non_positional_function_params =
     # def_pos_args
     # def_args
     # def_arguments
     """
-    def function(pp, /, p, *kp, **kps): ...
+    def function(pp, /, p, *l, kp, **kps): ...
 
-    function(1, a2, 3, a4, kp=5, p3=6)
+    function(1, a2, 3, a4, kp=5, p3=6) #@
     """
-    return True
+    # return True
