@@ -22,16 +22,33 @@ class TestArgumentChecker(pylint.testutils.CheckerTestCase):
 
         # with self.assertNoMessages():
         #     ...
-            # self.checker.visit_functiondef(func_node)
-            # self.checker.visit_return(return_node_a)
-            # self.checker.visit_return(return_node_b)
+        # self.checker.visit_functiondef(func_node)
+        # self.checker.visit_return(return_node_a)
+        # self.checker.visit_return(return_node_b)
 
-    """
-    def function(parameter): ...
+    def test_no_argument(self):
+        call = astroid.extract_node(
+            """
+            def function(required1, required2): ...
 
-    argument = None
-    function(parameter=argument)
-    """
+            function() #@
+            """
+        )
+        assert my_plugin.check_call_arguments(
+            function_call=call,
+        ) == False
+
+    def test_invalid_type_argument(self):
+        call = astroid.extract_node(
+            """
+            def function(required1:int): ...
+
+            function(required1="string") #@
+            """
+        )
+        assert my_plugin.check_call_arguments(
+            function_call=call,
+        ) == False
 
     """
     def function(parameter): ...
@@ -41,14 +58,14 @@ class TestArgumentChecker(pylint.testutils.CheckerTestCase):
 
     """
     def function(parameter): ...
-    
+
     function(parameter=None)
     """
 
     """
     class Class:
         def method(self, parameter): ...
-    
+
     Class().method(None):
     """
 
@@ -139,7 +156,7 @@ class TestArgumentChecker(pylint.testutils.CheckerTestCase):
 
     """
     def function(default_parameter=None): ...
-    
+
     function()
     """
 
@@ -177,13 +194,13 @@ class TestArgumentChecker(pylint.testutils.CheckerTestCase):
 
     """
     def function(**keyword_parameters): ... 
-    
+
     function()
     """
 
     """
     def function(**keyword_parameters): ... 
-    
+
     function(argument=None)
     """
 
@@ -250,14 +267,14 @@ class TestArgumentChecker(pylint.testutils.CheckerTestCase):
         self.checker.visit_functiondef(node=func_node)
         self.checker.visit_return(return_node_a)
         with self.assertAddsMessages(
-            pylint.testutils.MessageTest(
-                msg_id="non-unique-returns",
-                node=return_node_b,
-                line=5,
-                col_offset=4,
-                end_line=5,
-                end_col_offset=12,
-            ),
+                pylint.testutils.MessageTest(
+                    msg_id="non-unique-returns",
+                    node=return_node_b,
+                    line=5,
+                    col_offset=4,
+                    end_line=5,
+                    end_col_offset=12,
+                ),
         ):
             self.checker.visit_return(return_node_b)
 
