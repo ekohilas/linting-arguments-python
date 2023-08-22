@@ -125,7 +125,7 @@ class TestArgumentChecker(pylint.testutils.CheckerTestCase):
         @staticmethod
         def method(parameter): ...
 
-    Class.method(None)
+    Class.method(parameter=None)
     """
 
     """
@@ -135,15 +135,6 @@ class TestArgumentChecker(pylint.testutils.CheckerTestCase):
 
     argument = None
     Class.method(argument)
-    """
-
-    """
-    class Class:
-        @staticmethod
-        def method(parameter): ...
-
-    argument = None
-    Class.method(parameter=argument)
     """
 
     """
