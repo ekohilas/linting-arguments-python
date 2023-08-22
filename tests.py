@@ -35,6 +35,12 @@ class TestArgumentChecker(pylint.testutils.CheckerTestCase):
 
     """
     def function(parameter): ...
+
+    function(None)
+    """
+
+    """
+    def function(parameter): ...
     
     function(parameter=None)
     """

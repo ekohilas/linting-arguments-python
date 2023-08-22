@@ -77,19 +77,19 @@ def update_call_arguments(function_call: nodes.Call) -> tuple[list[nodes.NodeNG]
     return updated_arguments, updated_keywords
 
 
-def check_call_arguments(function_call: nodes.Call):
+def check_call_arguments(function_call: nodes.Call) -> bool:
     """
     TODO
     """
     # TODO: add return type
     function_name = function_call.func
     function_definition = next(function_name.infer())
-    check_call_against_definition(function_call, function_definition)
+    return check_call_against_definition(function_call, function_definition)
 
 def check_call_against_definition(
         function_call: nodes.Call,
         function_definition: nodes.FunctionDef,
-):
+) -> bool:
     """
     TODO
     """
@@ -105,5 +105,4 @@ def check_call_against_definition(
 
     function(1, a2, 3, a4, kp=5, p3=6)
     """
-
-    ...
+    return True
