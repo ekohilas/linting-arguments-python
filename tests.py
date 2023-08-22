@@ -69,7 +69,7 @@ class TestArgumentChecker(pylint.testutils.CheckerTestCase):
             class Class:
                 def method(self, parameter): ...
             
-            Class().method(None):
+            Class().method(None)
             """
         )
         assert not my_plugin.check_call_arguments(
