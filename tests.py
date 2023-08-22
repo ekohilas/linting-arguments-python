@@ -26,116 +26,171 @@ class TestArgumentChecker(pylint.testutils.CheckerTestCase):
             # self.checker.visit_return(return_node_a)
             # self.checker.visit_return(return_node_b)
 
-    """
-    def function(parameter): ...
+    def test_function_named_variable_param(self):
+        call = astroid.extract_node(
+            """
+            def function(parameter): ...
+            
+            argument = None
+            function(parameter=argument)
+            """
+        )
+        assert my_plugin.check_call_arguments(
+            function_call=call,
+        )
 
-    argument = None
-    function(parameter=argument)
-    """
+    def test_function_unnamed_param(self):
+        call = astroid.extract_node(
+            """
+            def function(parameter): ...
+        
+            function(None)
+            """
+        )
+        assert not my_plugin.check_call_arguments(
+            function_call=call,
+        )
 
-    """
-    def function(parameter): ...
+    def test_function_named_param(self):
+        call = astroid.extract_node(
+            """
+            def function(parameter): ...
+            
+            function(parameter=None)
+            """
+        )
+        assert my_plugin.check_call_arguments(
+            function_call=call,
+        )
 
-    function(None)
-    """
+    def test_method_unnamed_param(self):
+        call = astroid.extract_node(
+            """
+            class Class:
+                def method(self, parameter): ...
+            
+            Class().method(None)
+            """
+        )
+        assert not my_plugin.check_call_arguments(
+            function_call=call,
+        )
 
-    """
-    def function(parameter): ...
-    
-    function(parameter=None)
-    """
+    def test_method_unnamed_variable_param(self):
+        call = astroid.extract_node(
+            """
+            class Class:
+                def method(self, parameter): ...
+        
+            argument = None
+            Class().method(argument)
+            """
+        )
+        assert not my_plugin.check_call_arguments(
+            function_call=call,
+        )
 
-    """
-    class Class:
-        def method(self, parameter): ...
-    
-    Class().method(None):
-    """
+    def test_method_named_variable_param(self):
+        call = astroid.extract_node(
+            """
+            class Class:
+                def method(self, parameter): ...
+        
+            argument = None
+            Class().method(parameter=argument)
+            """
+        )
+        assert not my_plugin.check_call_arguments(
+            function_call=call,
+        )
 
-    """
-    class Class:
-        def method(self, parameter): ...
+    def test_classmethod_unnamed_variable_param(self):
+        call = astroid.extract_node(
+            """
+            class Class:
+                @classmethod
+                def method(cls, parameter): ...
+        
+            argument = None
+            Class.method(argument)
+            """
+        )
+        assert not my_plugin.check_call_arguments(
+            function_call=call,
+        )
 
-    argument = None
-    Class().method(argument):
-    """
+    def test_classmethod_named_variable_param(self):
+        call = astroid.extract_node(
+            """
+            class Class:
+                @classmethod
+                def method(cls, parameter): ...
+        
+            argument = None
+            Class.method(parameter=argument)
+            """
+        )
+        assert my_plugin.check_call_arguments(
+            function_call=call,
+        )
 
-    """
-    class Class:
-        def method(self, parameter): ...
+    def test_staticmethod_unnamed_param(self):
+        call = astroid.extract_node(
+            """
+            class Class:
+                @staticmethod
+                def method(parameter): ...
+        
+            Class.method(None)
+            """
+        )
+        assert not my_plugin.check_call_arguments(
+            function_call=call,
+        )
 
-    argument = None
-    Class().method(parameter=argument):
-    """
+    def test_staticmethod_unnamed_variable_param(self):
+        call = astroid.extract_node(
+            """
+            class Class:
+                @staticmethod
+                def method(parameter): ...
+        
+            argument = None
+            Class.method(argument)
+            """
+        )
+        assert not my_plugin.check_call_arguments(
+            function_call=call,
+        )
 
-    """
-    class Class:
-        @classmethod
-        def method(cls, parameter): ...
+    def test_staticmethod_named_variable_param(self):
+        call = astroid.extract_node(
+            """
+            class Class:
+                @staticmethod
+                def method(parameter): ...
+        
+            argument = None
+            Class.method(parameter=argument)
+            """
+        )
+        assert my_plugin.check_call_arguments(
+            function_call=call,
+        )
 
-    Class.method(None)
-    """
-
-    """
-    class Class:
-        @classmethod
-        def method(cls, parameter): ...
-
-    argument = None
-    Class.method(argument)
-    """
-
-    """
-    class Class:
-        @classmethod
-        def method(cls, parameter): ...
-
-    argument = None
-    Class.method(parameter=argument)
-    """
-
-    """
-    class Class:
-        @staticmethod
-        def method(parameter): ...
-
-    Class.method(None)
-    """
-
-    """
-    class Class:
-        @staticmethod
-        def method(parameter): ...
-
-    argument = None
-    Class.method(argument)
-    """
-
-    """
-    class Class:
-        @staticmethod
-        def method(parameter): ...
-
-    argument = None
-    Class.method(parameter=argument)
-    """
-
-    """
-    class Class:
-        @staticmethod
-        def method(parameter): ...
-
-    Class.method(parameter=None)
-    """
-
-    """
-    class Class:
-        @staticmethod
-        def method(parameter): ...
-
-    argument = None
-    Class.method(argument)
-    """
+    def test_staticmethod_named_param(self):
+        call = astroid.extract_node(
+            """
+            class Class:
+                @staticmethod
+                def method(parameter): ...
+        
+            Class.method(parameter=None)
+            """
+        )
+        assert my_plugin.check_call_arguments(
+            function_call=call,
+        )
 
     """
     def function(default_parameter=None): ...

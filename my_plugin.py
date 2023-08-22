@@ -1,6 +1,5 @@
-import astroid
 from astroid import nodes
-from typing import TYPE_CHECKING, Optional
+from typing import TYPE_CHECKING, Optional, Tuple, List
 
 from pylint.checkers import BaseChecker
 
@@ -64,7 +63,7 @@ def transform_function_call(function_call: nodes.Call) -> None:
 # TODO: register transform
 # astroid.MANAGER.register_transform(astroid.Call, transform_function_call)
 
-def update_call_arguments(function_call: nodes.Call) -> tuple[list[nodes.NodeNG], list[nodes.Keyword]]:
+def update_call_arguments(function_call: nodes.Call) -> Tuple[List[nodes.NodeNG], List[nodes.Keyword]]:
     """
     Returns what a function call's arguments and keyword arguments should be after
     updating arguments to use keywords instead.
