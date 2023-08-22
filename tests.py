@@ -191,6 +191,18 @@ class TestArgumentChecker(pylint.testutils.CheckerTestCase):
             function_call=call,
         )
 
+    def test_no_argument(self):
+        call = astroid.extract_node(
+            """
+            def function(parameter): ...
+
+            function(None)
+            """
+        )
+        assert my_plugin.check_call_arguments(
+            function_call=call,
+        ) == False
+
     """
     def function(default_parameter=None): ...
     
