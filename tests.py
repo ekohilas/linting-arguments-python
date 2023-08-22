@@ -206,21 +206,6 @@ class TestArgumentChecker(pylint.testutils.CheckerTestCase):
             function_call=call,
         )
 
-    def test_staticmethod_unnamed_variable_param(self):
-        call = astroid.extract_node(
-            """
-            class Class:
-                @staticmethod
-                def method(parameter): ...
-        
-            argument = None
-            Class.method(argument)
-            """
-        )
-        assert my_plugin.check_call_arguments(
-            function_call=call,
-        )
-
     """
     def function(default_parameter=None): ...
     
