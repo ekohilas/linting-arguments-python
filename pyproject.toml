@@ -1,0 +1,21 @@
+[tool.poetry]
+name = "linting-arguments-python"
+version = "0.1.0"
+description = "Provides linting rules around function arguments in Python"
+authors = ["Evan Kohilas"]
+license = "MIT"
+readme = "README.md"
+packages = [{include = "linting_arguments_python"}]
+
+[tool.poetry.dependencies]
+python = "^3.8"
+pylint = "^2.17.5"
+astroid = "^2.15.6"
+
+
+[tool.poetry.group.dev.dependencies]
+pytest = "^7.4.0"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
