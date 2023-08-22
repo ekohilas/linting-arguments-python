@@ -250,7 +250,7 @@ class TestArgumentChecker(pylint.testutils.CheckerTestCase):
             return 5 #@
         """)
 
-        self.checker.visit_functiondef(func_node)
+        self.checker.visit_functiondef(node=func_node)
         self.checker.visit_return(return_node_a)
         with self.assertAddsMessages(
             pylint.testutils.MessageTest(

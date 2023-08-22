@@ -1,3 +1,4 @@
+import astroid
 from astroid import nodes
 from typing import TYPE_CHECKING, Optional
 
@@ -56,7 +57,31 @@ class ArgumentChecker(BaseChecker):
         """
         linter.register_checker(ArgumentChecker(linter))
 
+def transform_function_call(function_call: nodes.Call) -> None:
+    # TODO: use update_call_arguments()
+    ...
+
+# TODO: register transform
+# astroid.MANAGER.register_transform(astroid.Call, transform_function_call)
+
+def update_call_arguments(function_call: nodes.Call) -> tuple[list[nodes.NodeNG], list[nodes.Keyword]]:
+    """
+    Returns what a function call's arguments and keyword arguments should be after
+    updating arguments to use keywords instead.
+    """
+    current_arguments = function_call.args
+    current_keywords = function_call.keywords
+    # TODO
+    updated_arguments = []
+    updated_keywords = []
+    return updated_arguments, updated_keywords
+
+
 def check_call_arguments(function_call: nodes.Call):
+    """
+    TODO
+    """
+    # TODO: add return type
     function_name = function_call.func
     function_definition = next(function_name.infer())
     check_call_against_definition(function_call, function_definition)
@@ -65,6 +90,10 @@ def check_call_against_definition(
         function_call: nodes.Call,
         function_definition: nodes.FunctionDef,
 ):
+    """
+    TODO
+    """
+    # TODO: Add return type
     function_args = function_definition.args
     call_args = function_call.args
     call_kwargs = function_call.keywords
@@ -72,9 +101,9 @@ def check_call_against_definition(
     # def_args
     # def_arguments
     """
-    def function(pp, /, p, *l, kp, **kps): ...
+    def function(pp, /, p, *kp, **kps): ...
 
-    print(1, a2, 3, a4, kp=5, p3=6)
+    function(1, a2, 3, a4, kp=5, p3=6)
     """
 
     ...
