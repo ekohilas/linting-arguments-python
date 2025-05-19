@@ -1,5 +1,5 @@
 import astroid
-import my_plugin
+from linting_arguments_python import my_plugin
 import pylint.testutils
 
 

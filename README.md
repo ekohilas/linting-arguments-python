@@ -3,14 +3,10 @@ Provides linting rules around function arguments in Python
 
 ## Getting Started
 
-Use [`poetry`](https://python-poetry.org)
-
-```shell
-poetry install
-```
+Use [`uv`](https://docs.astral.sh/uv/)
 
 ## Run Tests
 
 ```shell
-poetry run pytest tests.py
+uv run pytest test/tests.py
 ```
