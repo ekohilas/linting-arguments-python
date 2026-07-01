@@ -20,3 +20,8 @@ dev = ["pytest>=7.4.0,<8"]
 
 [tool.hatch.build.targets.wheel]
 packages = ["src/linting_arguments_python"]
+
+[tool.pytest.ini_options]
+# Make the top-level `catalog` package importable by the catalog tests without
+# packaging it into the wheel (it is test-only fixture data).
+pythonpath = ["."]
