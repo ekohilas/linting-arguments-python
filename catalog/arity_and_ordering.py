@@ -484,14 +484,14 @@ CASES = [
     Case(
         id="arity_and_ordering.order_illegal_positional_after_keyword.with_star_unpack",
         definition="def function(a, b, *args): ...",
-        call="function(a=1, *args)",
+        call="function(a=1, *args, 2)",
         tags={
             "definition_kind": ["pos_or_kw", "var_positional"],
             "param_count": "few",
             "defaults": "no_default",
             "annotations": "unannotated",
             "callable_kind": "module_function",
-            "arg_forms": ["kw", "kw_value_literal"],
+            "arg_forms": ["pos_literal", "kw", "kw_value_literal"],
             "unpacking": "star_seq",
             "arity": "arity_unknown",
             "ordering": "order_illegal_positional_after_keyword",
@@ -501,10 +501,10 @@ CASES = [
             "validity": "syntax_error",
         },
         notes=(
-            "An iterable `*args` unpack (positional in nature) after a keyword `a=1` is a "
-            "SyntaxError -- 'iterable argument unpacking follows keyword argument "
-            "unpacking'. (Note the reverse, `f(*args, 1)`, is legal, so the keyword-first "
-            "ordering is what makes this unparseable.)"
+            "Bare positional `2` after keyword `a=1` is a SyntaxError -- 'positional "
+            "argument follows keyword argument' -- even with a `*args` unpack in between. "
+            "(Note `f(*args, 1)` alone is legal, so it is the trailing bare positional "
+            "after a keyword that makes this unparseable.)"
         ),
     ),
     Case(
